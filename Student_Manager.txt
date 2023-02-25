@@ -83,3 +83,27 @@ select * from Students where fullname like 'Nguyen%';
 select * from Students where fullname like '%Anh';
 select * from Students where age<=25 and age>=18;
 select * from Students where id=12 or id=13;
+
+#Luyện tập ngày 24/2:
+#Thống kê số lượng học viên các lớp (count)
+select class.class_name, count(classes_id) as 'Số sv mỗi lớp'
+from student_managerment.class, student_managerment.students
+where class.id = students.classes_id
+group by class_name;
+
+# Thống kê số lượng học viên tại các tỉnh
+select address.address, count(address_id) as "Số học viên tại các tỉnh"
+from address,students
+where address.id = students.address_id
+group by address;
+
+# Tính điểm trung bình của các khóa học
+select course.course_name, avg(points) as "Điểm trung bình các khóa học"
+from course join points on course.id = points.course_id
+group by course.course_name;
+
+#Đưa ra khóa học có điểm trung bình cao nhất (max)
+select course.course_name, avg(points) as "Điểm trung bình lớn nhất"
+from course join points on course.id = points.course_id
+group by course_name
+having avg(points) >= all (select avg(points) from points group by points.course_id);
